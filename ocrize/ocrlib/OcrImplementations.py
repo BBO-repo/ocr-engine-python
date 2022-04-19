@@ -24,7 +24,7 @@ def insurance_card_ocr(document_path:str, store_result: bool = False) -> list[Ty
     reader = easyocr.Reader(['fr'])
     ocr_result = reader.readtext(img, detail = 1)
     
-    if True or store_result:
+    if store_result:
         for i, val in enumerate(ocr_result):
             start_point = [int(x) for x in val[0][0]] # some time coordinates are return as float so make sur it is an int
             end_point = [int(x) for x in val[0][2]]
