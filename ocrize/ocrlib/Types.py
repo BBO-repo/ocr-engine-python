@@ -11,3 +11,4 @@ class DocType(Enum):
 class ProcessingStatus(Enum):
     SUCCESS = 0
     FAIL = 1
+    WRONG_IMAGE = 2
