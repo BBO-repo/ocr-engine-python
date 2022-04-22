@@ -1,8 +1,12 @@
+import os 
+import re
+
 import cv2
 import easyocr
-import re
+import pytesseract
+import imutils
+
 from . import Types
-import os
 
 def insurance_card_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
@@ -18,7 +22,11 @@ def insurance_card_ocr(document_path:str, store_result: bool = False) -> list[Ty
         width = int(img.shape[1] * scale)
         height = int(img.shape[0] * scale)
         img = cv2.resize(img, (width, height), interpolation = cv2.INTER_CUBIC)
-
+    
+    # determine orientation
+    osd = pytesseract.image_to_osd(img, output_type=pytesseract.Output.DICT)
+    if osd["rotate"] != 0 and osd["orientation_conf"] > 4:
+        img = imutils.rotate_bound(img, angle=osd["rotate"])
 
     # ocr image allowing only numbers
     reader = easyocr.Reader(['fr'])
@@ -39,7 +47,7 @@ def insurance_card_ocr(document_path:str, store_result: bool = False) -> list[Ty
     match = [ s for s in ocr_result if card_number_pattern.match(s[1])]
     
     # some card have space in there insurance card number some make sure we remove them
-    return [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if match.count else [Types.ProcessingStatus.FAIL, None]
+    return [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
 
 def pdf_unilabs_ocr(document_path:str) -> Types.ProcessingStatus:
     return Types.ProcessingStatus.FAIL
