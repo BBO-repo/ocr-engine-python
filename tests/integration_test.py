@@ -1,6 +1,5 @@
 import os
 import unittest
-from xmlrpc.client import FastMarshaller
 import ocrize.ocrlib
 import cv2
 import numpy as np 
@@ -83,6 +82,25 @@ class IntegrationTests(unittest.TestCase):
         
         # generate rotated image
         Helper.generate_rotated_images(image_path)
+        
+        # expected insurance card number
+        expected_result = "80756009940015401778"
+        
+        name, ext = os.path.splitext(image_path)
+
+        # rotate image for angle [0,360[ degrees around the center of the image
+        for angle in [0, 90, 180, 270]:#range(360):
+            file_name = name + "_" + str(angle) + "_degree" + ext
+            #img = cv2.imread(file_name)
+            #if osd["rotate"] != 0 and osd["orientation_conf"] > 3:
+            #osd = pytesseract.image_to_osd(img, output_type=pytesseract.Output.DICT)
+            #with open('result.txt', 'a') as f:
+            #    f.write(str(angle) + ": " + str(osd) + '\n')
+            #    f.write('angle {angle}: {result}\n'.format(angle=angle, result=(ocr_result == expected_result)))
+
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(file_name,ocrize.ocrlib.DocType.CARD)
+            self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
+            self.assertTrue(ocr_result == expected_result)
         
         
             
