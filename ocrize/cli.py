@@ -1,7 +1,7 @@
 from os import path
 from argparse import ArgumentParser, RawTextHelpFormatter
 import json
-import ocrlib
+from . import ocrlib
 
 
 def is_valid_file(parser, arg) -> str :
