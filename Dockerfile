@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
+# install the python package
+COPY . /ocr-engine-python
 WORKDIR /ocr-engine-python
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install .
