@@ -11,3 +11,4 @@ RUN apt-get update \
 COPY . /ocr-engine-python
 WORKDIR /ocr-engine-python
 RUN pip install .
+ENTRYPOINT ["python", "-m", "ocrize"]
