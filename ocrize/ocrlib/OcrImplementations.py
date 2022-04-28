@@ -29,7 +29,7 @@ def insurance_card_ocr(document_path:str, store_result: bool = False) -> list[Ty
         img = imutils.rotate_bound(img, angle=osd["rotate"])
 
     # ocr image allowing only numbers
-    reader = easyocr.Reader(['fr'])
+    reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
     ocr_result = reader.readtext(img, detail = 1)
     
     if store_result:
