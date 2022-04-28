@@ -20,3 +20,5 @@ mkdir -p /home/EasyOCR/model/ && \
 # unzip model files to model directory
 unzip craft_mlt_25k.zip -d /home/EasyOCR/model/ && \
 unzip latin_g2.zip -d /home/EasyOCR/model/
+
+ENTRYPOINT ["python", "-m", "ocrize"]
