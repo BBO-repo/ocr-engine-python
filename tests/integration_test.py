@@ -3,6 +3,8 @@ import unittest
 import ocrize.ocrlib
 import cv2
 import numpy as np 
+import requests
+import json 
 
 class Helper:
     @staticmethod
@@ -101,7 +103,29 @@ class IntegrationTests(unittest.TestCase):
             status, ocr_result = ocrize.ocrlib.Ocrizer.process(file_name,ocrize.ocrlib.DocType.CARD)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == expected_result)
+    
+    def test_success_on_webapp(self):
+        # before running the test make sure webapp is running and url is correct
+        url = "http://127.0.0.1:5000/ocr/insurance-card"
+        file = open("/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card/PastedGraphic-1.png", 'rb')
+        # test with a valid image
+        response = requests.post(url, files = {"image": file})
+        result=response.json()
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
+        file.close()
         
+        # test without image
+        response = requests.post(url, files = {})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        
+        # test with a non valid image
+        response = requests.post(url, files = {"image": None})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
         
             
         
