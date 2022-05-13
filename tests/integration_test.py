@@ -104,6 +104,8 @@ class IntegrationTests(unittest.TestCase):
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == expected_result)
     
+    # disable by default since requires running webapp
+    @unittest.SkipTest
     def test_success_on_webapp(self):
         # before running the test make sure webapp is running and url is correct
         url = "http://127.0.0.1:5000/ocr/insurance-card"
