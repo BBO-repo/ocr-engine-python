@@ -1,4 +1,6 @@
 from flask import Flask, request, Response
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import json
 import numpy as np
 import cv2
@@ -7,7 +9,14 @@ from ocrize import ocrlib
 
 app = Flask(__name__)
 
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+
 @app.route('/ocr/insurance-card', methods=['POST'])
+@limiter.limit("5 per minute")
 def insurance_card():
 
     if "image" not in request.files:
