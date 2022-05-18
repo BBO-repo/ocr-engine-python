@@ -105,13 +105,12 @@ class IntegrationTests(unittest.TestCase):
             self.assertTrue(ocr_result == expected_result)
     
     # disable by default since requires running webapp
-    @unittest.SkipTest
     def test_success_on_webapp(self):
         # before running the test make sure webapp is running and url is correct
         url = "http://127.0.0.1:5000/ocr/insurance-card"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card/PastedGraphic-1.png", 'rb')
         # test with a valid image
-        response = requests.post(url, files = {"image": file})
+        response = requests.post(url, files = {"document": file})
         result=response.json()
         self.assertTrue(response.status_code == 200)
         self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
@@ -124,7 +123,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
         
         # test with a non valid image
-        response = requests.post(url, files = {"image": None})
+        response = requests.post(url, files = {"document": None})
         result=response.json()
         self.assertTrue(response.status_code == 400)
         self.assertTrue(result["status"] == "ProcessingStatus.FAIL")

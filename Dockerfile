@@ -1,15 +1,17 @@
 FROM python:3.10-slim-bullseye
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    build-essential libssl-dev wget git pkg-config\
-    python3-dev python3-pip tesseract-ocr libgtk2.0-dev unzip\ 
-    && apt-get purge -y --auto-remove \
-    && rm -rf /var/lib/apt/lists/*
+&& apt-get install -y --no-install-recommends \
+build-essential libssl-dev wget git pkg-config \
+python3-dev python3-pip tesseract-ocr libgtk2.0-dev unzip\ 
+&& apt-get purge -y --auto-remove \
+&& rm -rf /var/lib/apt/lists/* \
+&& mkdir -p /ocr-engine-python/ocrize
 
 # install the python package
-COPY . /ocr-engine-python
-WORKDIR /ocr-engine-python
+COPY app.py README.md requirements.txt setup.py /ocr-engine-python/
+COPY ocrize /ocr-engine-python/ocrize
+WORKDIR /ocr-engine-python/
 # install python packages
 RUN pip install . && \
 # download detection and recognition models

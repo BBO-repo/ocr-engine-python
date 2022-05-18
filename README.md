@@ -61,7 +61,7 @@ To stop the container just enter
 docker stop ocrizer
 ```
 ## Perform the OCR of a document
-To perform the OCR of a document, make sure the container is running and send a `POST` request with a `multipart/form-data` containing a fiedl `image` in the body containing the document you want to analyze.<br>
+To perform the OCR of a document, make sure the container is running and send a `POST` request with a `multipart/form-data` containing a fiedl `document` in the body containing the document you want to analyze.<br>
 The `POST` url depends on the kind of document you want to process.<br>
 To process a picture of an insurance card the API url is `/ocr/insurance-card`, the full url without any container network redirection should be `http://172.17.0.2:5000/ocr/insurance-card`.
 
