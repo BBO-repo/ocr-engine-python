@@ -16,7 +16,7 @@ limiter = Limiter(
 )
 
 @app.route('/ocr/insurance-card', methods=['POST'])
-@limiter.limit("10 per minute")
+@limiter.limit("60 per minute")
 def insurance_card():
 
     if "document" not in request.files:
