@@ -61,28 +61,23 @@ To stop the container just enter
 docker stop ocrizer
 ```
 ## Perform the OCR of a document
-To perform the OCR of a document, make sure the container is running and send a `POST` request with a `multipart/form-data` containing a fiedl `document` in the body containing the document you want to analyze.<br>
+To perform the OCR of a document, make sure the container is running and send a `POST` request with a `multipart/form-data` containing a field `document` in the body containing the document you want to analyze.<br>
 The `POST` url depends on the kind of document you want to process.<br>
 To process a picture of an insurance card the API url is `/ocr/insurance-card`, the full url without any container network redirection should be `http://172.17.0.2:5000/ocr/insurance-card`.
 
-<!---
-## Running the example
-A testing image is provided inside the repository at `ocr-engine-python/example/carte swica 2.png`, the following command lines illustrate how to perform the OCR of the image from a terminal 
-```
-git clone https://github.com/BBO-repo/ocr-engine-python.git
-```
-```
-docker build -t ocr_engine ocr-engine-python
-```
-```
-docker run -it -v "/$(pwd)/ocr-engine-python/tests/example":/what/ever/you/want --name ocrizer ocr_engine:latest python -m ocrize --type 1 --path "/what/ever/you/want/carte swica 2.png"
-```
-You should obtain the following result on the terminal
-```
-{"file": "/what/ever/you/want/carte swica 2.png", "status": "ProcessingStatus.SUCCESS", "type": 1, "data": "80756013841234567890"}
-```
-N.B: the docker option `-v` only support absolute path this explains the `/$(pwd)/` prefix when indicating the host folder to mount in the container
 
+## Running the example
+A testing image is provided inside the repository at `ocr-engine-python/example/carte swica 2.png`, the following command lines illustrate a curl command to  perform the OCR of the image from a terminal 
+```
+curl --location --request POST 'http://172.17.0.2:5000/ocr/insurance-card' --form 'document=@"/home/bbz/Workspace/test-deployment/ocr-engine-python/tests/example/carte swica 2.png"'
+```
+N.B: make sure the path of the `document` field is correct, it can be a relative or an absolute file path<br>
+You should have a result as below:
+```
+{"file": "carte swica 2.png", "status": "ProcessingStatus.SUCCESS", "type": "DocType.CARD", "data": "80756013841234567890", "description": "ocr process correctly"}
+```
+ 
+<!---
 ## Technical documentation
 ### Implementation details of the Python package
 The python package is called `ocrize` and expects two parameters:<br>
