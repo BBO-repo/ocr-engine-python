@@ -15,6 +15,10 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"]
 )
 
+@app.route('/healthcheck')
+def healthcheck():
+    return Response(response=json.dumps({"version": "1.0", "status": "ok"}, default=str), status=200, mimetype="application/json")
+
 @app.route('/ocr/insurance-card', methods=['POST'])
 @limiter.limit("60 per minute")
 def insurance_card():

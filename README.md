@@ -60,6 +60,17 @@ To stop the container just enter
 ```
 docker stop ocrizer
 ```
+## Check the web application is correctly running
+To make sure the web application is correctly running, a sanity endpoint is present in the web application.<br>
+Make sure the docker container is running, and send a GET request at `/healthcheck` with the following command:
+```
+curl --location --request GET 'http://172.17.0.2:5000/healthcheck'
+```
+You should have a `200` response status with the following
+```
+{"version": "1.0", "status": "ok"}
+```
+
 ## Perform the OCR of a document
 To perform the OCR of a document, make sure the container is running and send a `POST` request with a `multipart/form-data` containing a field `document` in the body containing the document you want to analyze.<br>
 The `POST` url depends on the kind of document you want to process.<br>
