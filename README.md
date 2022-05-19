@@ -69,7 +69,7 @@ To process a picture of an insurance card the API url is `/ocr/insurance-card`, 
 ## Running the example
 A testing image is provided inside the repository at `ocr-engine-python/example/carte swica 2.png`, the following command lines illustrate a curl command to  perform the OCR of the image from a terminal 
 ```
-curl --location --request POST 'http://172.17.0.2:5000/ocr/insurance-card' --form 'document=@"/home/bbz/Workspace/test-deployment/ocr-engine-python/tests/example/carte swica 2.png"'
+curl --location --request POST 'http://172.17.0.2:5000/ocr/insurance-card' --form 'document=@"ocr-engine-python/tests/example/carte swica 2.png"'
 ```
 N.B: make sure the path of the `document` field is correct, it can be a relative or an absolute file path<br>
 You should have a result as below:
