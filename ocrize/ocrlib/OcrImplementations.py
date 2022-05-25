@@ -2,9 +2,11 @@ import os
 import re
 
 import cv2
+import numpy as np
 import easyocr
 import pytesseract
 import imutils
+import fitz
 
 from . import Types
 
@@ -14,11 +16,15 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
     # ocr image if not None else return
     return insurance_card_image_ocr(img, store_result) if img is not None else [Types.ProcessingStatus.WRONG_IMAGE, None]
 
-def pdf_unilabs_ocr(document_path:str) -> Types.ProcessingStatus:
-    return Types.ProcessingStatus.FAIL
+def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+    
+    img = get_first_pdf_page_as_image(document_path)    
+    return unilab_pdf_image_ocr(img, store_result) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
-def pdf_dianalabs_ocr(document_path:str) -> Types.ProcessingStatus:
-    return Types.ProcessingStatus.FAIL
+def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+    
+    img = get_first_pdf_page_as_image(document_path)    
+    return dianalab_pdf_image_ocr(img, store_result) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel
@@ -34,7 +40,7 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     if osd["rotate"] != 0 and osd["orientation_conf"] > 4:
         opencv_image = imutils.rotate_bound(opencv_image, angle=osd["rotate"])
 
-    # ocr image allowing only numbers
+    # ocr image
     reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
     ocr_result = reader.readtext(opencv_image, detail = 1)
     
@@ -54,3 +60,38 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     
     # some card have space in there insurance card number some make sure we remove them
     return [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
+
+def unilab_pdf_image_ocr(opencv_image, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+    
+    # ocr image
+    reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
+    ocr_result = reader.readtext(opencv_image, detail = 1)
+    print(ocr_result)
+    print("unilab_pdf_image_ocr")
+
+    return [Types.ProcessingStatus.FAIL, None]
+
+def dianalab_pdf_image_ocr(opencv_image, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+    
+    # ocr image
+    reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
+    ocr_result = reader.readtext(opencv_image, detail = 1)
+    print(ocr_result)
+    print("dianalab_pdf_image_ocr")
+    
+    return [Types.ProcessingStatus.FAIL, None]
+
+def get_first_pdf_page_as_image(document_path:str):
+    
+    img = None
+    with fitz.Document(document_path) as doc:
+        firstPage = doc.load_page(0)
+        zoom = 1
+        mat = fitz.Matrix(zoom, zoom)
+        pix = firstPage.get_pixmap(matrix = mat)
+        imgData = pix.tobytes("png")
+        nparr = np.frombuffer(imgData, np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    return img
+    

@@ -7,9 +7,9 @@ class Ocrizer:
         match document_type:
             case Types.DocType.CARD:
                 return OcrImplementations.insurance_card_file_ocr(document_path)
+            case Types.DocType.PDF_UNILAB:
+                return OcrImplementations.unilab_pdf_file_ocr(document_path)
             case Types.DocType.PDF_DIANALAB:
-                return OcrImplementations.pdf_unilabs_ocr(document_path)
-            case Types.DocType.PDF_DIANALAB:
-                return OcrImplementations.pdf_dianalabs_ocr(document_path)
+                return OcrImplementations.dianalab_pdf_file_ocr(document_path)
             case _:
                 return [Types.ProcessingStatus.FAIL, None]

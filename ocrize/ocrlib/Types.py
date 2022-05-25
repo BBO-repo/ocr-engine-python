@@ -12,3 +12,4 @@ class ProcessingStatus(Enum):
     SUCCESS = 0
     FAIL = 1
     WRONG_IMAGE = 2
+    WRONG_FILE = 3
