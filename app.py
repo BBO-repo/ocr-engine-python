@@ -7,6 +7,7 @@ import cv2
 import fitz
 import io
 from ocrize import ocrlib
+import gc
 
 app = Flask(__name__)
 
@@ -38,11 +39,14 @@ def insurance_card():
     # ocr processing of image
     if img is None:
         response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.CARD, "data": "", "description": "could not parse \'document\' field as an image"}, default=str)
-        return Response(response=response, status=400, mimetype="application/json")
+        response_status = 400
     else:
         status, ocr_result = ocrlib.OcrImplementations.insurance_card_image_ocr(img)
+        response_status = 200 
         response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.CARD, "data": ocr_result, "description": "ocr process correctly"}, default=str)
-        return Response(response=response, status=200, mimetype="application/json")
+    
+    gc.collect() 
+    return Response(response=response, status=response_status, mimetype="application/json")
 
 @app.route('/ocr/pdf/unilab', methods=['POST'])
 @limiter.limit("60 per minute")

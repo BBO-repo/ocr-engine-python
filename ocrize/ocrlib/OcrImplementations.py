@@ -4,17 +4,25 @@ import re
 import cv2
 import numpy as np
 import easyocr
-import pytesseract
-import imutils
 import fitz
+import gc
 
 from . import Types
 
 def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+    # returns data
+    processing_status = Types.ProcessingStatus.WRONG_IMAGE
+    ocr_result = None
+    
     # read the image
     img = cv2.imread(document_path)
     # ocr image if not None else return
-    return insurance_card_image_ocr(img, store_result) if img is not None else [Types.ProcessingStatus.WRONG_IMAGE, None]
+    if img is not None:
+        processing_status, ocr_result = insurance_card_image_ocr(img, store_result)
+    
+    del img
+    gc.collect()
+    return processing_status, ocr_result
 
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
@@ -58,6 +66,8 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     card_number_pattern = re.compile('^807')
     match = [ s for s in ocr_result if card_number_pattern.match(s[1])]
     
+    # free easyocr reader
+    del reader
     # some card have space in there insurance card number some make sure we remove them
     return [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
 
