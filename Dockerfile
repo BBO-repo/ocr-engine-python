@@ -13,9 +13,9 @@ COPY app.py README.md requirements.txt setup.py /ocr-engine-python/
 COPY ocrize /ocr-engine-python/ocrize
 WORKDIR /ocr-engine-python/
 # install python packages
-RUN pip install . && \
+RUN pip install .
 # download detection and recognition models
-wget https://github.com/JaidedAI/EasyOCR/releases/download/pre-v1.1.6/craft_mlt_25k.zip && \
+RUN wget https://github.com/JaidedAI/EasyOCR/releases/download/pre-v1.1.6/craft_mlt_25k.zip && \
 wget https://github.com/JaidedAI/EasyOCR/releases/download/v1.3/latin_g2.zip && \
 # build model directory
 mkdir -p /home/EasyOCR/model/ && \
