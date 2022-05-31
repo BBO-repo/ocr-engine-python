@@ -79,6 +79,8 @@ class IntegrationTests(unittest.TestCase):
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
+    # processing rotated images has been disabled in computation
+    @unittest.SkipTest
     def test_success_on_rotated_images(self):
         image_path = "/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card-rotated/PastedGraphic-2.png"
         
@@ -105,7 +107,6 @@ class IntegrationTests(unittest.TestCase):
             self.assertTrue(ocr_result == expected_result)
     
     # disable by default since requires running webapp
-    @unittest.SkipTest
     def test_success_on_webapp(self):
         # before running the test make sure webapp is running and url is correct
         url = "http://127.0.0.1:5000/ocr/insurance-card"
