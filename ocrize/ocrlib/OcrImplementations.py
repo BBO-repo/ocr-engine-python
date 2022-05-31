@@ -36,9 +36,9 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
         opencv_image = cv2.resize(opencv_image, (width, height), interpolation = cv2.INTER_CUBIC)
     
     # determine orientation
-    osd = pytesseract.image_to_osd(opencv_image, output_type=pytesseract.Output.DICT)
-    if osd["rotate"] != 0 and osd["orientation_conf"] > 4:
-        opencv_image = imutils.rotate_bound(opencv_image, angle=osd["rotate"])
+    #osd = pytesseract.image_to_osd(opencv_image, output_type=pytesseract.Output.DICT)
+    #if osd["rotate"] != 0 and osd["orientation_conf"] > 4:
+    #    opencv_image = imutils.rotate_bound(opencv_image, angle=osd["rotate"])
 
     # ocr image
     reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
