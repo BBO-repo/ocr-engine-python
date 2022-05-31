@@ -44,15 +44,15 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
     ocr_result = reader.readtext(opencv_image, detail = 1)
     
-    if store_result and (document_path is not None):
-        for i, val in enumerate(ocr_result):
-            start_point = [int(x) for x in val[0][0]] # some time coordinates are return as float so make sur it is an int
-            end_point = [int(x) for x in val[0][2]]
-            opencv_image = cv2.rectangle(opencv_image, start_point, end_point, (255, 0, 0), 2)
-        
-        name, ext = os.path.splitext(document_path)
-        file_name = name + '_ocr' + ext
-        cv2.imwrite(file_name, opencv_image)
+    #if store_result and (document_path is not None):
+    #    for i, val in enumerate(ocr_result):
+    #        start_point = [int(x) for x in val[0][0]] # some time coordinates are return as float so make sur it is an int
+    #        end_point = [int(x) for x in val[0][2]]
+    #        opencv_image = cv2.rectangle(opencv_image, start_point, end_point, (255, 0, 0), 2)
+    #    
+    #    name, ext = os.path.splitext(document_path)
+    #    file_name = name + '_ocr' + ext
+    #    cv2.imwrite(file_name, opencv_image)
     
     # keep only if matching the insurance card number pattern
     card_number_pattern = re.compile('^807')
