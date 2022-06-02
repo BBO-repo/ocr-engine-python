@@ -66,10 +66,16 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     card_number_pattern = re.compile('^807')
     match = [ s for s in ocr_result if card_number_pattern.match(s[1])]
     
+    response = [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
+    
     # free easyocr reader
+    del match
+    del card_number_pattern
+    del ocr_result
     del reader
+    gc.collect()
     # some card have space in there insurance card number some make sure we remove them
-    return [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
+    return response
 
 def unilab_pdf_image_ocr(opencv_image, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     

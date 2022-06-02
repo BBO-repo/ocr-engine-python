@@ -45,6 +45,10 @@ def insurance_card():
         response_status = 200 
         response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.CARD, "data": ocr_result, "description": "ocr process correctly"}, default=str)
     
+    del img
+    del data
+    del in_memory_file
+    del document
     gc.collect() 
     return Response(response=response, status=response_status, mimetype="application/json")
 
