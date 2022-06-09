@@ -42,8 +42,8 @@ class Helper:
 
 class IntegrationTests(unittest.TestCase):
 
-    def test_success_on_dataset(self):
-        # first dataset
+    def test_success_on_insurance_card_dataset(self):
+        # datasets directories
         data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card/"
         data_directory_2= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/insurance-card/"
         data_directory_3= "/workspaces/ocr-engine-python/tests/data/2022-04-07-testing-data/insurance-card/"
@@ -105,6 +105,17 @@ class IntegrationTests(unittest.TestCase):
             status, ocr_result = ocrize.ocrlib.Ocrizer.process(file_name,ocrize.ocrlib.DocType.CARD)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == expected_result)
+    
+    def test_success_on_unilab_pdf(self):
+        data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/unilabs/"
+        pdfs_unilab = [
+            (data_directory_1+"0 OM labo urine 17.12.21.pdf","SHRESTHA Rajan")
+        ]
+        
+        for i, val in enumerate(pdfs_unilab):
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_UNILAB)
+            self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
+            self.assertTrue(ocr_result == val[1])
     
     # disable by default since requires running webapp
     def test_success_on_webapp(self):
