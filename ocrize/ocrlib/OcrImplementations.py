@@ -27,12 +27,12 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return unilab_pdf_image_ocr(img, True, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
 def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return dianalab_pdf_image_ocr(img, store_result) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel
@@ -112,15 +112,45 @@ def unilab_pdf_image_ocr(opencv_image, store_result: bool = False, document_path
     gc.collect()
     return response
 
-def dianalab_pdf_image_ocr(opencv_image, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+def dianalab_pdf_image_ocr(opencv_image, store_result: bool = False, document_path: str = None) -> list[Types.ProcessingStatus, str]:
     
     # ocr image
     reader = easyocr.Reader(['fr'],model_storage_directory="/home/EasyOCR/model/", download_enabled=False)
-    ocr_result = reader.readtext(opencv_image, detail = 1)
-    print(ocr_result)
-    print("dianalab_pdf_image_ocr")
+    ocr_result = reader.readtext(opencv_image, detail = 1, paragraph=True)
     
-    return [Types.ProcessingStatus.FAIL, None]
+    #if store_result and (document_path is not None):
+    #  for i, val in enumerate(ocr_result):
+    #      start_point = [int(x) for x in val[0][0]] # some time coordinates are return as float so make sur it is an int
+    #      end_point = [int(x) for x in val[0][2]]
+    #      opencv_image = cv2.rectangle(opencv_image, start_point, end_point, (255, 0, 0), 2)
+    #  
+    #  name, _ = os.path.splitext(document_path)
+    #  file_name = name + '_ocr.png'
+    #  cv2.imwrite(file_name, opencv_image)
+    
+    # retrieve the paragraph containing name and birth date with a regex
+    date_pattern = r'\s\d{2}.\d{2}.\d{4}\s\(\D\)\s' # match date dd.mm.yyyy (H)
+    match = None
+    match_start_index = None
+    patient_name = None
+    for x in ocr_result:
+        match = re.search(date_pattern,x[1])
+        if match:
+            match_start_index = match.span()[0]
+            patient_name = x[1][0:match_start_index]
+            break
+    
+    # dianalabs stores name as Monsieur/Madame Lastname Firstname so remove prefix
+    if patient_name:
+        patient_name = patient_name.partition(" ")[-1]
+    
+       
+    response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAIL, None]
+    del match
+    del ocr_result
+    del reader
+    gc.collect()
+    return response
 
 def get_first_pdf_page_as_image(document_path:str):
     

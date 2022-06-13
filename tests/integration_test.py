@@ -117,7 +117,19 @@ class IntegrationTests(unittest.TestCase):
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
+    def test_success_on_dianalab_pdf(self):
+        data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/"
+        pdfs_dianalab = [
+            (data_directory_1+"8405 labo 17.12.2021.pdf","GLAVAS Milan")
+        ]
+        
+        for i, val in enumerate(pdfs_dianalab):
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_DIANALAB)
+            self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
+            self.assertTrue(ocr_result == val[1])
+    
     # disable by default since requires running webapp
+    @unittest.SkipTest
     def test_success_on_webapp(self):
         # before running the test make sure webapp is running and url is correct
         url = "http://127.0.0.1:5000/ocr/insurance-card"
