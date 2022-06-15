@@ -109,7 +109,10 @@ class IntegrationTests(unittest.TestCase):
     def test_success_on_unilab_pdf(self):
         data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/unilabs/"
         pdfs_unilab = [
-            (data_directory_1+"0 OM labo urine 17.12.21.pdf","SHRESTHA Rajan")
+            (data_directory_1+"0 OM labo urine 17.12.21.pdf","SHRESTHA Rajani"),
+            (data_directory_1+"8402 OM labo urine 10.1.22.pdf","GUTIERREZ MOLET Maria Alicia"),
+            (data_directory_1+"labo du 18.12.2021.pdf","SHRESTHA Rajani"),
+            (data_directory_1+"serologie COVID du 28.09.2021.pdf","DESTINOBLES VAILLANT Violette")
         ]
         
         for i, val in enumerate(pdfs_unilab):
@@ -120,7 +123,11 @@ class IntegrationTests(unittest.TestCase):
     def test_success_on_dianalab_pdf(self):
         data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/"
         pdfs_dianalab = [
-            (data_directory_1+"8405 labo 17.12.2021.pdf","GLAVAS Milan")
+            (data_directory_1+"8405 labo 17.12.2021.pdf","GLAVAS Milan"),
+            (data_directory_1+"8411 labo du 27.12.2021.pdf","PEDRAZZOLI Debora"),
+            (data_directory_1+"8411 sed urinaire 27.12.2021.pdf","PEDRAZZOLI Debora"),
+            (data_directory_1+"8412 sed urinaire 27.12.2021.pdf","REY Severine"),
+            (data_directory_1+"8412labo du 27.12.2021.pdf","REY Severine"), 
         ]
         
         for i, val in enumerate(pdfs_dianalab):

@@ -102,7 +102,8 @@ def unilab_pdf_image_ocr(opencv_image, store_result: bool = False, document_path
         match = re.search(date_pattern,x[1])
         if match:
             match_start_index = match.span()[0]
-            patient_name = x[1][0:match_start_index-1]
+            extracted_text = x[1] 
+            patient_name = extracted_text[0:match_start_index]
             break
             
     response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAIL, None]
@@ -137,7 +138,8 @@ def dianalab_pdf_image_ocr(opencv_image, store_result: bool = False, document_pa
         match = re.search(date_pattern,x[1])
         if match:
             match_start_index = match.span()[0]
-            patient_name = x[1][0:match_start_index]
+            extracted_text = x[1] 
+            patient_name = extracted_text[0:match_start_index]
             break
     
     # dianalabs stores name as Monsieur/Madame Lastname Firstname so remove prefix
