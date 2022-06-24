@@ -37,9 +37,9 @@ def insurance_card():
     data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)    
     img = cv2.imdecode(data, cv2.IMREAD_COLOR)
     # ocr processing of image
+    response_status = 400
     if img is None:
         response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.CARD, "data": "", "description": "could not parse \'document\' field as an image"}, default=str)
-        response_status = 400
     else:
         status, ocr_result = ocrlib.OcrImplementations.insurance_card_image_ocr(img)
         response_status = 200 
@@ -77,13 +77,26 @@ def unilab_pdf():
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) 
     
     # ocr processing of image
+    response_status = 400
     if img is None:
         response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_UNILAB, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
-        return Response(response=response, status=400, mimetype="application/json")
     else:
         status, ocr_result = ocrlib.OcrImplementations.unilab_pdf_image_ocr(img)
         response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILAB, "data": ocr_result, "description": "ocr process correctly"}, default=str)
-        return Response(response=response, status=200, mimetype="application/json")
+        response_status = 200
+    
+    del img
+    del nparr
+    del imgData
+    del pix
+    del mat 
+    del firstPage
+    del doc
+    del in_memory_file
+    del document
+    gc.collect() 
+    
+    return Response(response=response, status=response_status, mimetype="application/json")
 
 @app.route('/ocr/pdf/dianalab', methods=['POST'])
 @limiter.limit("60 per minute")
@@ -110,10 +123,23 @@ def dianalab_pdf():
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) 
     
     # ocr processing of image
+    response_status = 400
     if img is None:
-        response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_DIANALAB, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
-        return Response(response=response, status=400, mimetype="application/json")
+        response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_UNILAB, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
     else:
-        status, ocr_result = ocrlib.OcrImplementations.dianalab_pdf_image_ocr(img)
-        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_DIANALAB, "data": ocr_result, "description": "ocr process correctly"}, default=str)
-        return Response(response=response, status=200, mimetype="application/json")
+        status, ocr_result = ocrlib.OcrImplementations.unilab_pdf_image_ocr(img)
+        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILAB, "data": ocr_result, "description": "ocr process correctly"}, default=str)
+        response_status = 200
+    
+    del img
+    del nparr
+    del imgData
+    del pix
+    del mat 
+    del firstPage
+    del doc
+    del in_memory_file
+    del document
+    gc.collect() 
+    
+    return Response(response=response, status=response_status, mimetype="application/json")
