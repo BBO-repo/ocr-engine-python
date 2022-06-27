@@ -69,12 +69,12 @@ def unilab_pdf():
     
     # get first page as an opencv image
     firstPage = doc.load_page(0)
-    zoom = 1
+    zoom = 2
     mat = fitz.Matrix(zoom, zoom)
     pix = firstPage.get_pixmap(matrix = mat)
     imgData = pix.tobytes("png")
     nparr = np.frombuffer(imgData, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) 
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     # ocr processing of image
     response_status = 400
@@ -115,7 +115,7 @@ def dianalab_pdf():
     
     # get first page as an opencv image
     firstPage = doc.load_page(0)
-    zoom = 1
+    zoom = 2
     mat = fitz.Matrix(zoom, zoom)
     pix = firstPage.get_pixmap(matrix = mat)
     imgData = pix.tobytes("png")

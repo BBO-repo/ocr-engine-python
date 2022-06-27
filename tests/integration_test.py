@@ -156,52 +156,52 @@ class IntegrationTests(unittest.TestCase):
         data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/"
         data_directory_2= "/workspaces/ocr-engine-python/tests/data/2022-06-20-testing-data/dianalabs/"
         pdfs_dianalab = [
-            #(data_directory_1+"8405 labo 17.12.2021.pdf","GLAVAS Milan"),
-            #(data_directory_1+"8411 labo du 27.12.2021.pdf","PEDRAZZOLI Debora"),
-            #(data_directory_1+"8411 sed urinaire 27.12.2021.pdf","PEDRAZZOLI Debora"),
-            #(data_directory_1+"8412 sed urinaire 27.12.2021.pdf","REY Severine"),
-            #(data_directory_1+"8412labo du 27.12.2021.pdf","REY Severine"), 
-            #(data_directory_2+"5 OM labo sang 10.5.21.pdf","DESTINOBLES Violette"), 
-            #(data_directory_2+"5 OM labo sang 21.4.21.pdf","DESTINOBLES Violette"), 
-            #(data_directory_2+"5 OM labo sang 21.4.21 bis.pdf","DESTINOBLES Violette"), 
-            #(data_directory_2+"5 OM labo urinaire 21.4.21.pdf","DESTINOBLES Violette"), 
-            #(data_directory_2+"19 labo du 28.09.2021.pdf","STUTZMANN Jean Marie"), 
-            #(data_directory_2+"23 OM labo urine 5.5.21.pdf","QUIRY Anne Claude"),             
-            #(data_directory_2+"23 OM labo urine 5.5.21.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"23 OM labo urine 18.1.22.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"23 res urine du 07.02.2022.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"23 res urine du 28.03.2022.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"42 OM labo urine 7.12.21.pdf","LESTON Jesus"), 
-            #(data_directory_2+"23 OM labo urine 18.1.22.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"23 res urine du 07.02.2022.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"23 res urine du 28.03.2022.pdf","QUIRY Anne Claude"), 
-            #(data_directory_2+"42 OM labo urine 7.12.21.pdf","LESTON Jesus"), 
-            #(data_directory_2+"132- Urines Dianalabs.pdf","SPIRIG Friedrich"), 
-            #(data_directory_2+"1737dianalabs.pdf","SANCHEZ Maria-Olga"), 
-            #(data_directory_2+"2672 OM labo sang 15.2.22.pdf","CRUZ Antonio José"), 
-            #(data_directory_2+"2701 labo.pdf","FERNANDEZ Gerardo"), 
-            #(data_directory_2+"2701 OM.pdf","FERNANDEZ Gerardo"), 
-            #(data_directory_2+"2701 OM labo.pdf","FERNANDEZ Gerardo"), 
-            #(data_directory_2+"2701 OM sang 2.6.22.pdf","FERNANDEZ Gerardo"), 
-            #(data_directory_2+"2701 urine 2.6.22.pdf","FERNANDEZ Gerardo"), 
-            #(data_directory_2+"2718 OM labo sang 7.6.21.pdf","MARGIOTTA Patrick"), 
-            #(data_directory_2+"2718 OM labo urine 7.6.21.pdf","MARGIOTTA Patrick"), 
-            #(data_directory_2+"3175 OM labo sang 18.3.21.pdf","CASTAGNOLO ANTONINO"), 
-            #(data_directory_2+"3175 OM labo sang 20.9.21.pdf","CASTAGNOLO Antonino"), 
-            #(data_directory_2+"3175 OM labo urine 18.3.21.pdf","CASTAGNOLO ANTONINO"), 
-            #(data_directory_2+"3440 Examens complementaires hospitalisation 7.12.21.pdf","CUESTA SYLVIA SANCHEZ"), 
-            #(data_directory_2+"4096Dianalabs.pdf","Laghzaoui Mohamed"), 
+            (data_directory_1+"8405 labo 17.12.2021.pdf","GLAVAS Milan"),
+            (data_directory_1+"8411 labo du 27.12.2021.pdf","PEDRAZZOLI Debora"),
+            (data_directory_1+"8411 sed urinaire 27.12.2021.pdf","PEDRAZZOLI Debora"),
+            (data_directory_1+"8412 sed urinaire 27.12.2021.pdf","REY Severine"),
+            (data_directory_1+"8412labo du 27.12.2021.pdf","REY Severine"), 
+            (data_directory_2+"5 OM labo sang 10.5.21.pdf","DESTINOBLES Violette"), 
+            (data_directory_2+"5 OM labo sang 21.4.21.pdf","DESTINOBLES Violette"), 
+            (data_directory_2+"5 OM labo sang 21.4.21 bis.pdf","DESTINOBLES Violette"), 
+            (data_directory_2+"5 OM labo urinaire 21.4.21.pdf","DESTINOBLES Violette"), 
+            (data_directory_2+"19 labo du 28.09.2021.pdf","STUTZMANN Jean Marie"), 
+            (data_directory_2+"23 OM labo urine 5.5.21.pdf","QUIRY Anne Claude"),             
+            (data_directory_2+"23 OM labo urine 5.5.21.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"23 OM labo urine 18.1.22.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"23 res urine du 07.02.2022.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"23 res urine du 28.03.2022.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"42 OM labo urine 7.12.21.pdf","LESTON Jesus"), 
+            (data_directory_2+"23 OM labo urine 18.1.22.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"23 res urine du 07.02.2022.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"23 res urine du 28.03.2022.pdf","QUIRY Anne Claude"), 
+            (data_directory_2+"42 OM labo urine 7.12.21.pdf","LESTON Jesus"), 
+            (data_directory_2+"132- Urines Dianalabs.pdf","SPIRIG Friedrich"), 
+            (data_directory_2+"1737dianalabs.pdf","SANCHEZ Maria-Olga"), 
+            (data_directory_2+"2672 OM labo sang 15.2.22.pdf","CRUZ Antonio José"), 
+            (data_directory_2+"2701 labo.pdf","FERNANDEZ Gerardo"), 
+            (data_directory_2+"2701 OM.pdf","FERNANDEZ Gerardo"), 
+            (data_directory_2+"2701 OM labo.pdf","FERNANDEZ Gerardo"), 
+            (data_directory_2+"2701 OM sang 2.6.22.pdf","FERNANDEZ Gerardo"), 
+            (data_directory_2+"2701 urine 2.6.22.pdf","FERNANDEZ Gerardo"), 
+            (data_directory_2+"2718 OM labo sang 7.6.21.pdf","MARGIOTTA Patrick"), 
+            (data_directory_2+"2718 OM labo urine 7.6.21.pdf","MARGIOTTA Patrick"), 
+            (data_directory_2+"3175 OM labo sang 18.3.21.pdf","CASTAGNOLO ANTONINO"), 
+            (data_directory_2+"3175 OM labo sang 20.9.21.pdf","CASTAGNOLO Antonino"), 
+            (data_directory_2+"3175 OM labo urine 18.3.21.pdf","CASTAGNOLO ANTONINO"), 
+            (data_directory_2+"3440 Examens complementaires hospitalisation 7.12.21.pdf","CUESTA SYLVIA SANCHEZ"), 
+            (data_directory_2+"4096Dianalabs.pdf","Laghzaoui Mohamed"), 
             (data_directory_2+"6802dianalabs.pdf","VENA SEVERICH Tatiana Helga"), 
-            #(data_directory_2+"6859 Dianalabs.pdf","ANTONIJEVIC Milenko"), 
-            #(data_directory_2+"7192- rapport partiel Dianalabs.pdf","SUAREZ VILCA Lucas Alexandre"), 
-            #(data_directory_2+"144781622020190117143630213__20190117143159_0113525335M_20190117_STUTZMANN_19631208_19_16220.pdf","STUTZMANN Jean Marie"), 
-            #(data_directory_2+"144781933320200827115539721__20200827115236_0113897489M_20200824_DALLA-MUTTA-HOMBERGER_19690210__19333.pdf","DALLA MUTTA HOMBERGER Brigitte"), 
-            #(data_directory_2+"144781933320200918165538967_3767332_20200918165236_0113919308S_20200918_HOMBERGER_19690210_3869_19333.pdf","HOMBERGER Brigitte"), 
-            #(data_directory_2+"144781933320200921080233363_3767332_20200921080131_0113919308M_20200918_HOMBERGER_19690210_3869_19333.pdf","HOMBERGER Brigitte"), 
-            #(data_directory_2+"144781933320200923085546598__20200923085326_0113922898S_20200922_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
-            #(data_directory_2+"144781933320200924141046139_3767332_20200924140631_0113924386S_20200924_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
-            #(data_directory_2+"144781933320200926095640237_3767332_20200926095104_0113924386M_20200924_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
-            #(data_directory_2+"Test COVID- du 04.11.20.pdf","CHOITEL Julien"), 
+            (data_directory_2+"6859 Dianalabs.pdf","ANTONIJEVIC Milenko"), 
+            (data_directory_2+"7192- rapport partiel Dianalabs.pdf","SUAREZ VILCA Lucas Alexandre"), 
+            (data_directory_2+"144781622020190117143630213__20190117143159_0113525335M_20190117_STUTZMANN_19631208_19_16220.pdf","STUTZMANN Jean Marie"), 
+            (data_directory_2+"144781933320200827115539721__20200827115236_0113897489M_20200824_DALLA-MUTTA-HOMBERGER_19690210__19333.pdf","DALLA MUTTA HOMBERGER Brigitte"), 
+            (data_directory_2+"144781933320200918165538967_3767332_20200918165236_0113919308S_20200918_HOMBERGER_19690210_3869_19333.pdf","HOMBERGER Brigitte"), 
+            (data_directory_2+"144781933320200921080233363_3767332_20200921080131_0113919308M_20200918_HOMBERGER_19690210_3869_19333.pdf","HOMBERGER Brigitte"), 
+            (data_directory_2+"144781933320200923085546598__20200923085326_0113922898S_20200922_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
+            (data_directory_2+"144781933320200924141046139_3767332_20200924140631_0113924386S_20200924_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
+            (data_directory_2+"144781933320200926095640237_3767332_20200926095104_0113924386M_20200924_HOMBERGER_19690210__19333.pdf","HOMBERGER Brigitte"), 
+            (data_directory_2+"Test COVID- du 04.11.20.pdf","CHOITEL Julien"), 
         ]
             
         for i, val in enumerate(pdfs_dianalab):
@@ -241,6 +241,39 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
         self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
         file.close()
+        
+        # test without document
+        response = requests.post(url, files = {})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        
+        # test with a non valid document
+        response = requests.post(url, files = {"document": None})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        
+        url = "http://127.0.0.1:5000/ocr/pdf/dianalab"
+        file = open("/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/8405 labo 17.12.2021.pdf", 'rb')
+        # test with a valid image
+        response = requests.post(url, files = {"document": file})
+        result=response.json()
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
+        file.close()
+        
+        # test without document
+        response = requests.post(url, files = {})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        
+        # test with a non valid document
+        response = requests.post(url, files = {"document": None})
+        result=response.json()
+        self.assertTrue(response.status_code == 400)
+        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
         
             
         
