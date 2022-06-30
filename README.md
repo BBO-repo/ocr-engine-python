@@ -67,8 +67,12 @@ Make sure the docker container is running, and send a GET request at `/healthche
 curl --location --request GET 'http://172.17.0.2:5000/healthcheck'
 ```
 You should have a `200` response status with the following
-```
-{"version": "1.0", "status": "ok"}
+```json
+{
+  "instanceName": "OcrEngine",
+  "instanceVersion": "1.0",
+  "environment": "dev"
+}
 ```
 
 ## Perform the OCR of a document
@@ -78,16 +82,23 @@ To process a picture of an insurance card the API url is `/ocr/insurance-card`, 
 
 
 ## Running the example
-A testing image is provided inside the repository at `ocr-engine-python/example/carte swica 2.png`, the following command lines illustrate a curl command to  perform the OCR of the image from a terminal 
+A testing image is provided inside the repository at `ocr-engine-python/example/carte swica 2.png`, the following command lines illustrate a curl command to perform the OCR of the image from a terminal 
 ```
-curl --location --request POST 'http://172.17.0.2:5000/ocr/insurance-card' --form 'document=@"ocr-engine-python/tests/example/carte swica 2.png"'
+curl --location --request POST 'http://172.17.0.2:5000/ocr/insurance-card'
+--form 'document=@"ocr-engine-python/tests/example/carte swica 2.png"'
 ```
 N.B: make sure the path of the `document` field is correct, it can be a relative or an absolute file path<br>
 You should have a result as below:
+```json
+{
+  "file": "carte swica 2.png",
+  "status": "SUCCESS",
+  "type": "INSURANCE_CARD",
+  "data": "80756013841234567890",
+  "description": "ocr process correctly"
+}
 ```
-{"file": "carte swica 2.png", "status": "ProcessingStatus.SUCCESS", "type": "DocType.CARD", "data": "80756013841234567890", "description": "ocr process correctly"}
-```
- 
+
 <!---
 ## Technical documentation
 ### Implementation details of the Python package
