@@ -75,7 +75,7 @@ class IntegrationTests(unittest.TestCase):
         ]
         
         for i, val in enumerate(image_insurance_number):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.CARD)
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.INSURANCE_CARD)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
@@ -102,7 +102,7 @@ class IntegrationTests(unittest.TestCase):
             #    f.write(str(angle) + ": " + str(osd) + '\n')
             #    f.write('angle {angle}: {result}\n'.format(angle=angle, result=(ocr_result == expected_result)))
 
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(file_name,ocrize.ocrlib.DocType.CARD)
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(file_name,ocrize.ocrlib.DocType.INSURANCE_CARD)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == expected_result)
     
@@ -148,7 +148,7 @@ class IntegrationTests(unittest.TestCase):
         ]
         
         for i, val in enumerate(pdfs_unilab):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_UNILAB)
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_UNILABS)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
@@ -205,33 +205,42 @@ class IntegrationTests(unittest.TestCase):
         ]
             
         for i, val in enumerate(pdfs_dianalab):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_DIANALAB)
+            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_DIANALABS)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
     # disable by default since requires running webapp
     def test_success_on_webapp(self):
         # before running the test make sure webapp is running and url is correct
+        
+        # test healthcheck
+        url = "http://127.0.0.1:5000/healthcheck"
+        response = requests.get(url)
+        result=response.json()
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(result["instanceName"] == "OcrEngine")
+        self.assertTrue(result["instanceVersion"] == "1.0")
+        
         url = "http://127.0.0.1:5000/ocr/insurance-card"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card/PastedGraphic-1.png", 'rb')
         # test with a valid image
         response = requests.post(url, files = {"document": file})
         result=response.json()
         self.assertTrue(response.status_code == 200)
-        self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
+        self.assertTrue(result["status"] == "SUCCESS")
         file.close()
         
         # test without image
         response = requests.post(url, files = {})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
         # test with a non valid image
         response = requests.post(url, files = {"document": None})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
         url = "http://127.0.0.1:5000/ocr/pdf/unilab"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/unilabs/0 OM labo urine 17.12.21.pdf", 'rb')
@@ -239,20 +248,20 @@ class IntegrationTests(unittest.TestCase):
         response = requests.post(url, files = {"document": file})
         result=response.json()
         self.assertTrue(response.status_code == 200)
-        self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
+        self.assertTrue(result["status"] == "SUCCESS")
         file.close()
         
         # test without document
         response = requests.post(url, files = {})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
         # test with a non valid document
         response = requests.post(url, files = {"document": None})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
         url = "http://127.0.0.1:5000/ocr/pdf/dianalab"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/8405 labo 17.12.2021.pdf", 'rb')
@@ -260,20 +269,20 @@ class IntegrationTests(unittest.TestCase):
         response = requests.post(url, files = {"document": file})
         result=response.json()
         self.assertTrue(response.status_code == 200)
-        self.assertTrue(result["status"] == "ProcessingStatus.SUCCESS")
+        self.assertTrue(result["status"] == "SUCCESS")
         file.close()
         
         # test without document
         response = requests.post(url, files = {})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
         # test with a non valid document
         response = requests.post(url, files = {"document": None})
         result=response.json()
         self.assertTrue(response.status_code == 400)
-        self.assertTrue(result["status"] == "ProcessingStatus.FAIL")
+        self.assertTrue(result["status"] == "FAILED")
         
             
         
