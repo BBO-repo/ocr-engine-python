@@ -19,14 +19,14 @@ limiter = Limiter(
 
 @app.route('/healthcheck')
 def healthcheck():
-    return Response(response=json.dumps({"version": "1.0", "status": "ok"}, default=str), status=200, mimetype="application/json")
+    return Response(response=json.dumps({"instanceName": "OcrEngine", "instanceVersion": "1.0", "environment": "dev"}, default=str), status=200, mimetype="application/json")
 
 @app.route('/ocr/insurance-card', methods=['POST'])
 @limiter.limit("60 per minute")
 def insurance_card():
 
     if "document" not in request.files:
-        response = json.dumps({"file": "", "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.CARD, "data": "", "description": "document field not found in body request"}, default=str)
+        response = json.dumps({"file": "", "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.INSURANCE_CARD, "data": "", "description": "document field not found in body request"}, default=str)
         return Response(response=response, status=400, mimetype="application/json")
     
     # retrieve image as an opencv image
@@ -39,11 +39,11 @@ def insurance_card():
     # ocr processing of image
     response_status = 400
     if img is None:
-        response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.CARD, "data": "", "description": "could not parse \'document\' field as an image"}, default=str)
+        response = json.dumps({"file": document.filename, "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.INSURANCE_CARD, "data": "", "description": "could not parse \'document\' field as an image"}, default=str)
     else:
         status, ocr_result = ocrlib.OcrImplementations.insurance_card_image_ocr(img)
         response_status = 200 
-        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.CARD, "data": ocr_result, "description": "ocr process correctly"}, default=str)
+        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.INSURANCE_CARD, "data": ocr_result, "description": "ocr process correctly"}, default=str)
     
     del img
     del data
@@ -57,7 +57,7 @@ def insurance_card():
 def unilab_pdf():
 
     if "document" not in request.files:
-        response = json.dumps({"file": "", "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_UNILAB, "data": "", "description": "document field not found in body request"}, default=str)
+        response = json.dumps({"file": "", "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.PDF_UNILABS, "data": "", "description": "document field not found in body request"}, default=str)
         return Response(response=response, status=400, mimetype="application/json")
     
     # retrieve pdf from request data
@@ -79,10 +79,10 @@ def unilab_pdf():
     # ocr processing of image
     response_status = 400
     if img is None:
-        response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_UNILAB, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
+        response = json.dumps({"file": document.filename, "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.PDF_UNILABS, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
     else:
         status, ocr_result = ocrlib.OcrImplementations.unilab_pdf_image_ocr(img)
-        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILAB, "data": ocr_result, "description": "ocr process correctly"}, default=str)
+        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILABS, "data": ocr_result, "description": "ocr process correctly"}, default=str)
         response_status = 200
     
     del img
@@ -103,7 +103,7 @@ def unilab_pdf():
 def dianalab_pdf():
 
     if "document" not in request.files:
-        response = json.dumps({"file": "", "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_DIANALAB, "data": "", "description": "document field not found in body request"}, default=str)
+        response = json.dumps({"file": "", "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.PDF_DIANALABS, "data": "", "description": "document field not found in body request"}, default=str)
         return Response(response=response, status=400, mimetype="application/json")
     
     # retrieve pdf from request data
@@ -125,10 +125,10 @@ def dianalab_pdf():
     # ocr processing of image
     response_status = 400
     if img is None:
-        response = json.dumps({"file": document.filename, "status": ocrlib.Types.ProcessingStatus.FAIL, "type": ocrlib.DocType.PDF_UNILAB, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
+        response = json.dumps({"file": document.filename, "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.PDF_UNILABS, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
     else:
         status, ocr_result = ocrlib.OcrImplementations.unilab_pdf_image_ocr(img)
-        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILAB, "data": ocr_result, "description": "ocr process correctly"}, default=str)
+        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILABS, "data": ocr_result, "description": "ocr process correctly"}, default=str)
         response_status = 200
     
     del img
