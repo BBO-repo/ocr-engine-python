@@ -11,7 +11,7 @@ from . import Types
 
 def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     # returns data
-    processing_status = Types.ProcessingStatus.WRONG_IMAGE
+    processing_status = Types.ProcessingStatus.FAILED
     ocr_result = None
     
     # read the image
@@ -27,12 +27,12 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.FAILED, None]
 
 def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.FAILED, None]
 
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel
@@ -66,7 +66,7 @@ def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_
     card_number_pattern = re.compile('^807')
     match = [ s for s in ocr_result if card_number_pattern.match(s[1])]
     
-    response = [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAIL, None]
+    response = [Types.ProcessingStatus.SUCCESS, match[0][1].replace(" ", "")] if len(match) else [Types.ProcessingStatus.FAILED, None]
     
     # free easyocr reader
     del match
@@ -106,7 +106,7 @@ def unilab_pdf_image_ocr(opencv_image, store_result: bool = False, document_path
             patient_name = extracted_text[0:match_start_index]
             break
             
-    response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAIL, None]
+    response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAILED, None]
     del match
     del ocr_result
     del reader
@@ -147,7 +147,7 @@ def dianalab_pdf_image_ocr(opencv_image, store_result: bool = False, document_pa
         patient_name = patient_name.partition(" ")[-1]
     
        
-    response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAIL, None]
+    response = [Types.ProcessingStatus.SUCCESS, patient_name] if match else [Types.ProcessingStatus.FAILED, None]
     del match
     del ocr_result
     del reader
