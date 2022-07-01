@@ -16,7 +16,8 @@ class ProcessingStatus(Enum):
     NONE = 0,
     SUCCESS = 1,
     WARNING = 2,
-    FAILED = 3
+    FAILED = 3,
+    WRONG_FILE = 4
     
     # remove prefix ProcessingStatus when enum gets converted to string
     def __str__(self):

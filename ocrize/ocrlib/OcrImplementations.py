@@ -11,7 +11,7 @@ from . import Types
 
 def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     # returns data
-    processing_status = Types.ProcessingStatus.FAILED
+    processing_status = Types.ProcessingStatus.WRONG_FILE
     ocr_result = None
     
     # read the image
@@ -27,12 +27,12 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.FAILED, None]
+    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
 def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
     
     img = get_first_pdf_page_as_image(document_path)    
-    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.FAILED, None]
+    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
 
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel
