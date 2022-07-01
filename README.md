@@ -99,6 +99,37 @@ You should have a result as below:
 }
 ```
 
+Similarly, you can perform the OCR of a patient examination pdf from Unilabs laboratories to retrieve the patient name with the following request:
+```
+curl --location --request POST 'http://172.17.0.2:5000/ocr/pdf/unilabs'
+--form 'document=@"/path/to/unilabs/pdf/unilabs_patient_examination.pdf"'
+```
+You should have a result as below:
+```json
+{
+  "file": "unilabs_patient_examination.pdf",
+  "status": "SUCCESS",
+  "type": "PDF_UNILABS",
+  "data": "Name of the patient",
+  "description": "ocr process correctly"
+}
+```
+And the same with Dianalabs patient examination pdf with the following request:
+```
+curl --location --request POST 'http://172.17.0.2:5000/ocr/pdf/dianalabs'
+--form 'document=@"/path/to/dianalabs/pdf/dianalabs_patient_examination.pdf"'
+```
+You should have a result as below:
+```json
+{
+  "file": "dianalabs_patient_examination.pdf",
+  "status": "SUCCESS",
+  "type": "PDF_DIANALABS",
+  "data": "Name of the patient",
+  "description": "ocr process correctly"
+}
+```
+N.B: the endpoint url for Unilabs OCR WS is `/ocr/pdf/unilabs` whereas for Dianalabs it is `/ocr/pdf/dianalabs`
 <!---
 ## Technical documentation
 ### Implementation details of the Python package

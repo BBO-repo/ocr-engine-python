@@ -242,7 +242,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(response.status_code == 400)
         self.assertTrue(result["status"] == "FAILED")
         
-        url = "http://127.0.0.1:5000/ocr/pdf/unilab"
+        url = "http://127.0.0.1:5000/ocr/pdf/unilabs"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/unilabs/0 OM labo urine 17.12.21.pdf", 'rb')
         # test with a valid image
         response = requests.post(url, files = {"document": file})
@@ -263,7 +263,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(response.status_code == 400)
         self.assertTrue(result["status"] == "FAILED")
         
-        url = "http://127.0.0.1:5000/ocr/pdf/dianalab"
+        url = "http://127.0.0.1:5000/ocr/pdf/dianalabs"
         file = open("/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/dianalabs/8405 labo 17.12.2021.pdf", 'rb')
         # test with a valid image
         response = requests.post(url, files = {"document": file})
@@ -284,7 +284,3 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(response.status_code == 400)
         self.assertTrue(result["status"] == "FAILED")
         
-            
-        
-
-   

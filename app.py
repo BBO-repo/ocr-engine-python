@@ -52,7 +52,7 @@ def insurance_card():
     gc.collect() 
     return Response(response=response, status=response_status, mimetype="application/json")
 
-@app.route('/ocr/pdf/unilab', methods=['POST'])
+@app.route('/ocr/pdf/unilabs', methods=['POST'])
 @limiter.limit("60 per minute")
 def unilab_pdf():
 
@@ -98,7 +98,7 @@ def unilab_pdf():
     
     return Response(response=response, status=response_status, mimetype="application/json")
 
-@app.route('/ocr/pdf/dianalab', methods=['POST'])
+@app.route('/ocr/pdf/dianalabs', methods=['POST'])
 @limiter.limit("60 per minute")
 def dianalab_pdf():
 
