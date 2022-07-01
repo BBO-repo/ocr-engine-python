@@ -128,7 +128,7 @@ def dianalab_pdf():
         response = json.dumps({"file": document.filename, "status": ocrlib.ProcessingStatus.FAILED, "type": ocrlib.DocType.PDF_UNILABS, "data": "", "description": "could not parse \'document\' field as a pdf document"}, default=str)
     else:
         status, ocr_result = ocrlib.OcrImplementations.unilab_pdf_image_ocr(img)
-        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_UNILABS, "data": ocr_result, "description": "ocr process correctly"}, default=str)
+        response = json.dumps({"file": document.filename, "status": status, "type": ocrlib.DocType.PDF_DIANALABS, "data": ocr_result, "description": "ocr process correctly"}, default=str)
         response_status = 200
     
     del img
