@@ -47,7 +47,8 @@ class IntegrationTests(unittest.TestCase):
         data_directory_1= "/workspaces/ocr-engine-python/tests/data/2022-04-01-testing-data/insurance-card/"
         data_directory_2= "/workspaces/ocr-engine-python/tests/data/2022-04-06-testing-data/insurance-card/"
         data_directory_3= "/workspaces/ocr-engine-python/tests/data/2022-04-07-testing-data/insurance-card/"
-        
+        data_directory_4= "/workspaces/ocr-engine-python/tests/data/2022-07-05-testing-data/insurance-card/"
+           
         image_insurance_number = [
             (data_directory_1+"PastedGraphic-1.png", "80756000620054622611"),
             (data_directory_1+"PastedGraphic-2.png", "80756009940015401778"),
@@ -72,12 +73,16 @@ class IntegrationTests(unittest.TestCase):
             (data_directory_3+"carte swica 2.png","80756013841234567890"),
             (data_directory_3+"carte swica angle 1.png","80756013841234567890"),
             (data_directory_3+"carte swica angle 2.png","80756013841234567890"),
+            #(data_directory_4+"IMG_2525.png","8075605620055335991"),
         ]
         
         for i, val in enumerate(image_insurance_number):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.INSURANCE_CARD)
+            status, ocr_result, _ = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.INSURANCE_CARD)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
+            #with open("sample.csv", "a") as file_object:
+            #    file_object.write(str(duration))
+            #    file_object.write("\n")
     
     # processing rotated images has been disabled in computation
     @unittest.SkipTest
@@ -148,7 +153,7 @@ class IntegrationTests(unittest.TestCase):
         ]
         
         for i, val in enumerate(pdfs_unilab):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_UNILABS)
+            status, ocr_result, _ = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_UNILABS)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     
@@ -205,7 +210,7 @@ class IntegrationTests(unittest.TestCase):
         ]
             
         for i, val in enumerate(pdfs_dianalab):
-            status, ocr_result = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_DIANALABS)
+            status, ocr_result, _ = ocrize.ocrlib.Ocrizer.process(val[0],ocrize.ocrlib.DocType.PDF_DIANALABS)
             self.assertTrue(status == ocrize.ocrlib.ProcessingStatus.SUCCESS)
             self.assertTrue(ocr_result == val[1])
     

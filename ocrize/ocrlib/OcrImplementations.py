@@ -1,5 +1,6 @@
 import os 
 import re
+import time
 
 import cv2
 import numpy as np
@@ -9,7 +10,8 @@ import gc
 
 from . import Types
 
-def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
+def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str, float]:
+    start_time = time.time()
     # returns data
     processing_status = Types.ProcessingStatus.WRONG_FILE
     ocr_result = None
@@ -22,17 +24,26 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
     
     del img
     gc.collect()
-    return processing_status, ocr_result
+    duration = float(time.time() - start_time)
+    return processing_status, ocr_result, duration
 
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
-    
-    img = get_first_pdf_page_as_image(document_path)    
-    return unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    start_time = time.time()
+    img = get_first_pdf_page_as_image(document_path) 
+    processing_status, ocr_result = unilab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    del img
+    gc.collect()
+    duration = float(time.time() - start_time)
+    return processing_status, ocr_result, duration 
 
 def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
-    
+    start_time = time.time()
     img = get_first_pdf_page_as_image(document_path)    
-    return dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    processing_status, ocr_result = dianalab_pdf_image_ocr(img, store_result, document_path) if img is not None else [Types.ProcessingStatus.WRONG_FILE, None]
+    del img
+    gc.collect()
+    duration = float(time.time() - start_time)
+    return processing_status, ocr_result, duration
 
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel

@@ -3,7 +3,7 @@ from . import OcrImplementations
 
 class Ocrizer:
     @staticmethod
-    def process(document_path:str, document_type:Types.DocType) -> list[Types.ProcessingStatus, str]:
+    def process(document_path:str, document_type:Types.DocType) -> list[Types.ProcessingStatus, str, float]:
         match document_type:
             case Types.DocType.INSURANCE_CARD:
                 return OcrImplementations.insurance_card_file_ocr(document_path)
@@ -12,4 +12,4 @@ class Ocrizer:
             case Types.DocType.PDF_DIANALABS:
                 return OcrImplementations.dianalab_pdf_file_ocr(document_path)
             case _:
-                return [Types.ProcessingStatus.FAILED, None]
+                return [Types.ProcessingStatus.FAILED, None, None]
