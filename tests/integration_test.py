@@ -73,7 +73,7 @@ class IntegrationTests(unittest.TestCase):
             (data_directory_3+"carte swica 2.png","80756013841234567890"),
             (data_directory_3+"carte swica angle 1.png","80756013841234567890"),
             (data_directory_3+"carte swica angle 2.png","80756013841234567890"),
-            #(data_directory_4+"IMG_2525.png","8075605620055335991"),
+            (data_directory_4+"IMG_2525.png","80756015620055335991"),
         ]
         
         for i, val in enumerate(image_insurance_number):
