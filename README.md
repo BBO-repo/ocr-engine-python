@@ -95,6 +95,7 @@ You should have a result as below:
   "status": "SUCCESS",
   "type": "INSURANCE_CARD",
   "data": "80756013841234567890",
+  "processing_time": "5.166735649108887sec",
   "description": "ocr process correctly"
 }
 ```
@@ -111,6 +112,7 @@ You should have a result as below:
   "status": "SUCCESS",
   "type": "PDF_UNILABS",
   "data": "Name of the patient",
+  "processing_time": "10.00339651107788sec",
   "description": "ocr process correctly"
 }
 ```
@@ -126,6 +128,7 @@ You should have a result as below:
   "status": "SUCCESS",
   "type": "PDF_DIANALABS",
   "data": "Name of the patient",
+  "processing_time": "11.414628744125366sec",
   "description": "ocr process correctly"
 }
 ```
