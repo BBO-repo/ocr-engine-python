@@ -23,7 +23,7 @@ def main() -> None :
     args = parser.parse_args()
     
     # perform ocr
-    status, ocr_result = ocrlib.Ocrizer.process(args.path, ocrlib.DocType(args.type))
+    status, ocr_result, duration = ocrlib.Ocrizer.process(args.path, ocrlib.DocType(args.type))
     
     # output results
     print('\n')
