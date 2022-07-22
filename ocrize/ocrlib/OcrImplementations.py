@@ -7,12 +7,14 @@ import numpy as np
 import easyocr
 import fitz
 import gc
+from skimage import restoration, color
+from skimage.util import img_as_float, img_as_ubyte
 
 from . import Types
 
 def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str, float]:
     start_time = time.time()
-    # returns data
+    # return data
     processing_status = Types.ProcessingStatus.WRONG_FILE
     ocr_result = None
     
@@ -22,9 +24,14 @@ def insurance_card_file_ocr(document_path:str, store_result: bool = False) -> li
     if img is not None:
         processing_status, ocr_result = insurance_card_image_ocr(img, store_result)
     
+    duration = float(time.time() - start_time)
+    # print("{os.path.basename(document_path)}: shape:{str(img.shape)} duration:{duration}")
+    # with open("sample.csv", "a") as file_object:
+    #    file_object.write(f"{os.path.basename(document_path)}: shape:{str(img.shape)} duration:{duration}")
+    #    file_object.write("\n")
+    
     del img
     gc.collect()
-    duration = float(time.time() - start_time)
     return processing_status, ocr_result, duration
 
 def unilab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list[Types.ProcessingStatus, str]:
@@ -48,11 +55,29 @@ def dianalab_pdf_file_ocr(document_path:str, store_result: bool = False) -> list
 def insurance_card_image_ocr(opencv_image, store_result: bool = False, document_path:str = None) -> list[Types.ProcessingStatus, str]:
     # scale image if width below 1000 pixel
     width = opencv_image.shape[1]
-    if width < 1000:
-        scale = 1000/width
+    # scale image if width below 900 pixel
+    if width < 900:
+        scale = 900/width
         width = int(opencv_image.shape[1] * scale)
         height = int(opencv_image.shape[0] * scale)
         opencv_image = cv2.resize(opencv_image, (width, height), interpolation = cv2.INTER_CUBIC)
+    
+    # detect blurring
+    blurring = cv2.Laplacian(opencv_image, cv2.CV_64F).var()
+    blurring_threshold = 300
+    # deblurr if below threshold
+    if blurring < blurring_threshold:
+        # https://stackoverflow.com/questions/20266825/deconvolution-with-opencv
+        # https://github.com/opencv/opencv/blob/master/samples/python/deconvolution.py
+        # https://github.com/tianyishan/Blind_Deconvolution
+        sk_image = img_as_float(opencv_image)
+        sk_image_gray = color.rgb2gray(sk_image)
+        psf = np.ones((5, 5)) / 25
+        
+        # restore image using Richardson-Lucy algorithm
+        sk_image = restoration.richardson_lucy(sk_image_gray, psf, num_iter=30)
+        opencv_image = img_as_ubyte(sk_image)
+        #cv2.imwrite("unblurred.png", opencv_image) 
     
     # determine orientation
     #osd = pytesseract.image_to_osd(opencv_image, output_type=pytesseract.Output.DICT)
